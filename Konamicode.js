@@ -22,7 +22,7 @@ var Konamicode = (function () {
         initialize = function (callback, opts) {
             success = callback;
 
-            opts = opts || {};
+            opts = opts || {};
             options = {
                 timelimit: opts.timelimit || 1000,
                 correct: opts.correct || null,

@@ -22,7 +22,7 @@ var Konamicode = (function () {
         initialize = function (callback, opts) {
             success = callback;
 
-            opts = opts || {};
+            opts = opts || {};
             options = {
                 timelimit: opts.timelimit || 1000,
                 correct: opts.correct || null,
@@ -46,12 +46,12 @@ var Konamicode = (function () {
             if (event.keyCode === keys[step]) {
                 // If a callback for correct key presses is defined, call it.
                 if (options.correct) {
-                    options.correct.call(Konamicode);
+                    options.correct.call(Konamicode, step);
                 }
 
                 // If the last step has been completed
                 if (step === keys.length - 1) {
-                    success.call(Konamicode);
+                    success.call(Konamicode, step);
                 } else {
                     step += 1;
                     lastTime = keyTime;
@@ -59,7 +59,7 @@ var Konamicode = (function () {
             } else {
                 // If a callback for incorrect key presses is defined, call it.
                 if (options.incorrect) {
-                    options.incorrect.call(Konamicode);
+                    options.incorrect.call(Konamicode, step);
                 }
 
                 step = lastTime = 0;

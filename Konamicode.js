@@ -17,8 +17,10 @@ var Konamicode = (function () {
         ],
         success,
         options = {},
-        step = 0,
-        lastTime = 0,
+        step = {
+            current: 0
+        },
+        timeoutId = 0,
         initialize = function (callback, opts) {
             success = callback;
 
@@ -37,37 +39,34 @@ var Konamicode = (function () {
             }
         },
         keyHandler = function (event) {
-            var keyTime = new Date().getTime();
-            // If time was to far ago reset step and count 
-            // this as an attempt on step 0
-            if (keyTime - lastTime > options.timelimit) {
-                if (options.timeout) {
-                    options.timeout.call(this, step);
-                }
-                step = lastTime = 0;
-            }
+            window.clearTimeout(timeoutId);
 
-            if (event.keyCode === keys[step]) {
+            if (event.keyCode === keys[step.current]) {
                 // If a callback for correct key presses is defined, call it.
                 if (options.correct) {
-                    options.correct.call(this, step);
+                    options.correct.call(this, step.current);
                 }
 
                 // If the last step has been completed
                 if (step === keys.length - 1) {
-                    success.call(this, step);
+                    success.call(this, step.current);
                 } else {
-                    step += 1;
-                    lastTime = keyTime;
+                    step.current += 1;
                 }
+
+                timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, step);
             } else {
                 // If a callback for incorrect key presses is defined, call it.
                 if (options.incorrect) {
-                    options.incorrect.call(this, step);
+                    options.incorrect.call(this, step.current);
                 }
 
-                step = lastTime = 0;
+                step.current = 0;
             }
+        },
+        timeout = function(callback, step) {
+            callback.call(this, step.current);
+            step.current = 0;
         };
 
     return initialize;

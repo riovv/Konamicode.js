@@ -22,10 +22,7 @@ var Konamicode = (function () {
         },
         timeoutId = 0,
         initialize = function (callback, opts) {
-            success = function (step) {
-                return callback.call(this, step, keyHandler);
-            };
-
+            success = callback;
             opts = opts || {};
             options = {
                 timelimit: opts.timelimit || 1000,
@@ -35,12 +32,23 @@ var Konamicode = (function () {
             };
 
             if (window.addEventListener) {
-                window.addEventListener("keyup", keyHandler);
+                window.addEventListener("keyup", listener);
             } else if (window.attachEvent) {
-                window.attachEvent("onkeyup", keyHandler);
+                window.attachEvent("onkeyup", listener);
             }
+
+            return {
+                remove: function () {
+                    if (window.removeEventListener) {
+                        window.removeEventListener("keyup", listener);
+                    } else if (window.detachEvent) {
+                        window.detachEvent("onkeyup", listener);
+                    }
+                }
+            };
+
         },
-        keyHandler = function (event) {
+        listener = function (event) {
             window.clearTimeout(timeoutId);
 
             if (event.keyCode === keys[step.current]) {

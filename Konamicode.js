@@ -26,7 +26,8 @@ var Konamicode = (function () {
             options = {
                 timelimit: opts.timelimit || 1000,
                 correct: opts.correct || null,
-                incorrect: opts.incorrect || null
+                incorrect: opts.incorrect || null,
+                timeout: opts.timeout || null
             };
 
             if (window.addEventListener) {
@@ -40,6 +41,9 @@ var Konamicode = (function () {
             // If time was to far ago reset step and count 
             // this as an attempt on step 0
             if (keyTime - lastTime > options.timelimit) {
+                if (options.timeout) {
+                    options.timeout.call(Konamicode, step);
+                }
                 step = lastTime = 0;
             }
 

@@ -64,7 +64,9 @@ var Konamicode = (function () {
                     step.current += 1;
                 }
 
-                timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, step);
+                if (options.timeout) {
+                    timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, step);
+                }
             } else {
                 // If a callback for incorrect key presses is defined, call it.
                 if (options.incorrect) {

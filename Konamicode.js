@@ -67,6 +67,9 @@ var Konamicode = (function () {
                 if (options.timeout) {
                     timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, step);
                 }
+            } else if (event.keyCode === keys[1]) {
+                // If for example U U U is pressed it should be treated as U U (which is correct).
+                return;
             } else {
                 // If a callback for incorrect key presses is defined, call it.
                 if (options.incorrect) {

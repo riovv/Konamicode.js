@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Konami code with JavaScript</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="../Konamicode.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="Konamicode.css"/>
+</head>
+<body>
+    <div id="content">
+        <img src="304px-Konami.png" />
+        <p>
+            The Konami Code, known in Japan as the Konami Command (コナミコマンド Konami Komando), is a cheat code that appears in many Konami video games, 
+            although the code also appears in some non-Konami games. <br />
+            The code was first used in the 1986 release of Gradius for the Nintendo Entertainment System 
+            but was popularized among North American players in the NES version of Contra, 
+            for which it was also dubbed both the "Contra Code" and "30 Lives Code". 
+            During the title screen before the game demo begins, the player could press the following sequence of buttons on the game controller:<br /><br />
+        </p>
+        <p id="extra">
+            <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Konami_Code.svg/500px-Konami_Code.svg.png" /> <br /><br />
+            <a href="http://en.wikipedia.org/wiki/Konami_Code">Read more at Wikipedia</a>
+        </p>
+        <a id="download" href="https://github.com/I-ARE-RIO/Konamicode.js/zipball/master"><button>Download Konamicode.js</button></a>
+    </div>
+
+    <a href="http://github.com/I-ARE-RIO/Konamicode.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
+
+    <ul id="indicator">
+        <li> &uarr; </li>
+        <li> &uarr; </li>
+        <li> &darr; </li>
+        <li> &darr; </li>
+        <li> &larr; </li>
+        <li> &rarr; </li>
+        <li> &larr; </li>
+        <li> &rarr; </li>
+        <li> B </li>
+        <li> A </li>
+    </ul>
+    <div style="clear: both" />
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+//<![CDATA[
+
+jQuery(document).ready(function($) {
+        var success = function (step) {
+            window.konamicode.remove();
+            $('#indicator').fadeOut(300);
+            $('#extra').fadeOut(300);
+            window.setTimeout(function() { $('#download').fadeIn(400); }, 300);
+        },
+        correct = function (step) {
+            $(indicatorItems[step]).fadeIn(200);
+        },
+        incorrect = function () {
+            indicatorItems.stop(true, true).hide();
+        },
+        indicatorItems = $('ul#indicator').children('li');
+
+
+    window.konamicode = Konamicode(success, {
+        timelimit: 3000,
+        correct: correct,
+        incorrect: incorrect,
+        timeout: incorrect
+    });
+
+});
+
+//]]>
+</script>
+</body>
+</html>

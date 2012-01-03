@@ -22,7 +22,9 @@ var Konamicode = (function () {
         },
         timeoutId = 0,
         initialize = function (callback, opts) {
-            success = callback;
+            success = function (step) {
+                return callback.call(this, step, keyHandler);
+            };
 
             opts = opts || {};
             options = {
@@ -48,7 +50,7 @@ var Konamicode = (function () {
                 }
 
                 // If the last step has been completed
-                if (step === keys.length - 1) {
+                if (step.current === keys.length - 1) {
                     success.call(this, step.current);
                 } else {
                     step.current += 1;

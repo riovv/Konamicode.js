@@ -17,32 +17,32 @@ var Konamicode = (function () {
         ],
         success,
         options = {},
-        step = {
-            current: 0
+        state = {
+            current: 0,
+            timeoutId: 0
         },
-        timeoutId = 0,
-        timeout = function(callback, step) {
-            callback.call(this, step.current);
-            step.current = 0;
+        timeout = function(callback, state) {
+            callback.call(this, state);
+            state.current = 0;
         },
         listener = function (event) {
-            window.clearTimeout(timeoutId);
+            window.clearTimeout(state.timeoutId);
 
-            if (event.keyCode === keys[step.current]) {
+            if (event.keyCode === keys[state.current]) {
                 // If a callback for correct key presses is defined, call it.
                 if (options.correct) {
-                    options.correct.call(this, step.current);
+                    options.correct.call(this, state);
                 }
 
-                // If the last step has been completed
-                if (step.current === keys.length - 1) {
-                    success.call(this, step.current);
+                // If the last state has been completed
+                if (state.current === keys.length - 1) {
+                    success.call(this, state);
                 } else {
-                    step.current += 1;
+                    state.current += 1;
                 }
 
                 if (options.timeout) {
-                    timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, step);
+                    state.timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, state);
                 }
             } else if (event.keyCode === keys[1]) {
                 // If for example U U U is pressed it should be treated as U U (which is correct).
@@ -50,10 +50,10 @@ var Konamicode = (function () {
             } else {
                 // If a callback for incorrect key presses is defined, call it.
                 if (options.incorrect) {
-                    options.incorrect.call(this, step.current);
+                    options.incorrect.call(this, state);
                 }
 
-                step.current = 0;
+                state.current = 0;
             }
         },
         initialize = function (callback, opts) {

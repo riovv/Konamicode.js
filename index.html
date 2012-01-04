@@ -46,14 +46,14 @@
 //<![CDATA[
 
 jQuery(document).ready(function($) {
-        var success = function (step) {
+        var success = function (state) {
             window.konamicode.remove();
             $('#indicator').fadeOut(300);
             $('#extra').fadeOut(300);
             window.setTimeout(function() { $('#download').fadeIn(400); }, 300);
         },
-        correct = function (step) {
-            $(indicatorItems[step]).fadeIn(200);
+        correct = function (state) {
+            $(indicatorItems[state.current]).fadeIn(200);
         },
         incorrect = function () {
             indicatorItems.stop(true, true).hide();

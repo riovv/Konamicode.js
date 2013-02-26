@@ -44,7 +44,7 @@ var Konamicode = (function () {
                 if (options.timeout) {
                     state.timeoutId = window.setTimeout(timeout, options.timelimit, options.timeout, state);
                 }
-            } else if (event.keyCode === keys[1]) {
+            } else if (event.keyCode === keys[1] && state.current === 2) {
                 // If for example U U U is pressed it should be treated as U U (which is correct).
                 return;
             } else {
